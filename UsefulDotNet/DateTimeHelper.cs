@@ -2,23 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Haukcode.UsefulDotNet
+namespace Haukcode.DatabaseUtils
 {
     public static class DateTimeHelper
     {
-        public static DateTime SpecifyKind(this DateTime input, DateTimeKind kind)
-        {
-            return DateTime.SpecifyKind(input, kind);
-        }
-
-        public static DateTime? SpecifyKind(this DateTime? input, DateTimeKind kind)
-        {
-            if (!input.HasValue)
-                return null;
-
-            return DateTime.SpecifyKind(input.Value, kind);
-        }
-
         public static IEnumerable<(DateTime Start, DateTime End)> SplitDateRange(DateTime start, DateTime end, int dayChunkSize, bool splitOnYear = false)
         {
             if (splitOnYear && dayChunkSize >= 365)

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace Haukcode.UsefulDotNet
+namespace Haukcode.DatabaseUtils
 {
     public static class PropertyValidator
     {
@@ -19,7 +19,7 @@ namespace Haukcode.UsefulDotNet
                         (e.State == EntityState.Added) ||
                         (e.State == EntityState.Modified)))
             {
-                var entity = entry.Entity;
+                object entity = entry.Entity;
                 var valContext = new ValidationContext(entity);
                 var entityErrors = new List<ValidationResult>();
                 if (!Validator.TryValidateObject(

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -7,14 +6,6 @@ namespace Haukcode.UsefulDotNet
 {
     public static class StringHelper
     {
-        public static string TrimLength(this string value, int maxLength)
-        {
-            if (value?.Length > maxLength)
-                return value.Substring(0, maxLength);
-
-            return value;
-        }
-
         public static (string FirstName, string LastName) SplitFullName(string input)
         {
             if (input == null)

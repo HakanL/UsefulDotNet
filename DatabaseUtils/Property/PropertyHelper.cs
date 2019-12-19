@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
 
-namespace Haukcode.UsefulDotNet
+namespace Haukcode.DatabaseUtils
 {
     public static class PropertyHelper
     {
@@ -51,8 +49,7 @@ namespace Haukcode.UsefulDotNet
 
         public static void Set<T, TProp>(T target, Expression<Func<T, TProp>> memberLamda, TProp sourceValue, Func<TProp, TProp, bool> comparer, ref bool isDirty)
         {
-            var memberSelectorExpression = memberLamda.Body as MemberExpression;
-            if (memberSelectorExpression != null)
+            if (memberLamda.Body is MemberExpression memberSelectorExpression)
             {
                 var property = memberSelectorExpression.Member as PropertyInfo;
                 if (property != null)
@@ -66,10 +63,14 @@ namespace Haukcode.UsefulDotNet
                     }
                 }
                 else
+                {
                     throw new ArgumentException("Invalid property type");
+                }
             }
             else
+            {
                 throw new ArgumentException("Invalid property");
+            }
         }
     }
 }
