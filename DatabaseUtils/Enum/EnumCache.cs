@@ -125,7 +125,7 @@ namespace Haukcode.DatabaseUtils
 
                 // Insert
 
-                if(Enum.TryParse<T>(enumName, out T enumValue))
+                if(!Enum.TryParse<T>(enumName, out T enumValue))
                     throw new ArgumentException($"Invalid enum name {enumName}");
 
                 string code;

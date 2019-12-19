@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -12,7 +12,8 @@
     <Copyright>(C) Copyright 2019 Hakan Lindestaf</Copyright>
     <RepositoryUrl>https://github.com/HakanL/UsefulDotNet</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
-    <PackageReleaseNotes>1.0.0 - Initial release</PackageReleaseNotes>
+    <PackageReleaseNotes>1.0.0 - Initial release
+1.0.1 - Bug fix</PackageReleaseNotes>
     <Description>Database utilities for Entity Framework
 - Proper enum handling (mapping to lookup tables with cache)
 - List merging
@@ -22,6 +23,7 @@
 - Various helpers
 </Description>
     <PackageTags>Entity, Framework, entity-framework-core, Core, Data, O/RM, EntityFrameworkCore, EntityFramework, EFCore, EF</PackageTags>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
