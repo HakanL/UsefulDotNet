@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,16 +8,23 @@ namespace Haukcode.DatabaseUtils
 {
     internal class EnumCache
     {
-        private readonly string enumName;
+        private readonly string enumIdentifier;
         private readonly Dictionary<int, int> intValueIndex;
         private readonly Dictionary<int, int> idIndex;
         private readonly Dictionary<int, string> codes;
         private readonly Action<string, string, string> logWarningAction;
         private readonly Action<string, string, string> logErrorAction;
 
-        internal EnumCache(string enumName, Action<string, string, string> logWarningAction, Action<string, string, string> logErrorAction)
+        internal EnumCache(Type enumIdentifier, IList<EnumValue> values)
+            : this(enumIdentifier.Name, null, null)
         {
-            this.enumName = enumName;
+            foreach (var value in values)
+                AddMapping(value.IntValues, value.Id, value.Code);
+        }
+
+        internal EnumCache(string enumIdentifier, Action<string, string, string> logWarningAction, Action<string, string, string> logErrorAction)
+        {
+            this.enumIdentifier = enumIdentifier;
             this.logWarningAction = logWarningAction;
             this.logErrorAction = logErrorAction;
 
@@ -46,7 +54,7 @@ namespace Haukcode.DatabaseUtils
         public int GetIdFromIntValue(int intValue)
         {
             if (!this.intValueIndex.TryGetValue(intValue, out int id))
-                throw new ArgumentException(string.Format("Value {0} is not valid for enum {1}", intValue, this.enumName));
+                throw new ArgumentException(string.Format("Value {0} is not valid for enum {1}", intValue, this.enumIdentifier));
 
             return id;
         }
@@ -54,7 +62,7 @@ namespace Haukcode.DatabaseUtils
         public int GetIntValueFromId(int id)
         {
             if (!this.idIndex.TryGetValue(id, out int intValue))
-                throw new ArgumentException(string.Format("Id {0} is not valid for enum {1}", id, this.enumName));
+                throw new ArgumentException(string.Format("Id {0} is not valid for enum {1}", id, this.enumIdentifier));
 
             return intValue;
         }
@@ -62,9 +70,32 @@ namespace Haukcode.DatabaseUtils
         public string GetCodeFromId(int id)
         {
             if (!this.codes.TryGetValue(id, out string code))
-                throw new ArgumentException(string.Format("Id {0} is not valid for enum {1}", id, this.enumName));
+                throw new ArgumentException(string.Format("Id {0} is not valid for enum {1}", id, this.enumIdentifier));
 
             return code;
+        }
+
+        public IList<EnumValue> GetMappings()
+        {
+            var result = new List<EnumValue>();
+
+            foreach (var kvp in this.intValueIndex)
+            {
+                if (!this.codes.TryGetValue(kvp.Value, out string code))
+                {
+                    Debug.Assert(false);
+                    continue;
+                }
+
+                result.Add(new EnumValue
+                {
+                    IntValues = kvp.Key,
+                    Id = kvp.Value,
+                    Code = code
+                });
+            }
+
+            return result;
         }
 
         private void AddMapping(int intValue, int id, string code)
@@ -125,7 +156,7 @@ namespace Haukcode.DatabaseUtils
 
                 // Insert
 
-                if(!Enum.TryParse<T>(enumName, out T enumValue))
+                if (!Enum.TryParse<T>(enumName, out T enumValue))
                     throw new ArgumentException($"Invalid enum name {enumName}");
 
                 string code;

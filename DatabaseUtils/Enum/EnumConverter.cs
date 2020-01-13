@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -15,6 +16,8 @@ namespace Haukcode.DatabaseUtils
         private readonly Action<string, string, string> logErrorAction;
         private readonly Type enumDatabaseConstantCodeType;
         private Dictionary<Type, EnumCache> enumCache;
+        private readonly Func<EnumStoredCache, string> serializeStoredCache;
+        private readonly Func<string, EnumStoredCache> deserializeStoredCache;
 
         public EnumConverter(
             Func<DbContext> getDbContext,
@@ -22,13 +25,17 @@ namespace Haukcode.DatabaseUtils
             Action<string, string, string> logWarningAction,
             Action<string, string, string> logErrorAction,
             bool initializeEnumCache,
-            Type enumDatabaseConstantCodeType)
+            Type enumDatabaseConstantCodeType,
+            Func<EnumStoredCache, string> serializeStoredCache = null,
+            Func<string, EnumStoredCache> deserializeStoredCache = null)
         {
             this.getDbContext = getDbContext;
             this.populateEnumCacheMethod = populateEnumCacheMethod;
             this.logWarningAction = logWarningAction;
             this.logErrorAction = logErrorAction;
             this.enumDatabaseConstantCodeType = enumDatabaseConstantCodeType;
+            this.serializeStoredCache = serializeStoredCache;
+            this.deserializeStoredCache = deserializeStoredCache;
 
             if (initializeEnumCache)
                 PopulateEnumCache();
@@ -42,7 +49,7 @@ namespace Haukcode.DatabaseUtils
                 .ToList();
         }
 
-        private void PopulateEnumCache()
+        private void PopulateEnumCache(string cachePath = null)
         {
             if (this.enumCache != null)
                 return;
@@ -52,6 +59,33 @@ namespace Haukcode.DatabaseUtils
                 if (this.enumCache != null)
                     return;
 
+                if (string.IsNullOrEmpty(cachePath))
+                    cachePath = Path.GetTempPath();
+
+                var executingAssembly = this.enumDatabaseConstantCodeType.Assembly;
+                string locationHash = StringHelper.Sha1String(executingAssembly.Location);
+                string cacheFileName = Path.Combine(cachePath, $"EnumCache-{executingAssembly.GetName().Name}-{locationHash}.json");
+                string contentHash = StringHelper.Sha1Bytes(File.ReadAllBytes(executingAssembly.Location));
+                try
+                {
+                    if (File.Exists(cacheFileName) && this.deserializeStoredCache != null)
+                    {
+                        var enumStoredCache = this.deserializeStoredCache(File.ReadAllText(cacheFileName));
+
+                        // Compare the hashes
+                        if (enumStoredCache?.CacheData != null && enumStoredCache.Hash == contentHash)
+                        {
+                            // Use cache
+                            this.enumCache = enumStoredCache.CacheData.ToDictionary(x => x.Key, x => new EnumCache(x.Key, x.Value));
+                            return;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.logWarningAction?.Invoke("Failed to load stored enum cache: {ErrorMessage}", ex.Message, null);
+                }
+
                 this.enumCache = new Dictionary<Type, EnumCache>();
 
                 using (var db = this.getDbContext())
@@ -60,6 +94,24 @@ namespace Haukcode.DatabaseUtils
 
                     // Save changes if there are any
                     db.SaveChanges();
+                }
+
+                if (this.serializeStoredCache != null)
+                {
+                    try
+                    {
+                        var enumStoredCache = new EnumStoredCache
+                        {
+                            Hash = contentHash,
+                            CacheData = this.enumCache.ToDictionary(x => x.Key, x => x.Value.GetMappings())
+                        };
+
+                        File.WriteAllText(cacheFileName, this.serializeStoredCache(enumStoredCache));
+                    }
+                    catch (Exception ex)
+                    {
+                        this.logWarningAction?.Invoke("Failed to write stored enum cache: {ErrorMessage}", ex.Message, null);
+                    }
                 }
             }
         }

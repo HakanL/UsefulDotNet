@@ -2,7 +2,7 @@
 
 namespace Haukcode.DatabaseUtils
 {
-    public static class StringHelper
+    public static partial class StringHelper
     {
         public static string TrimLength(string value, int maxLength)
         {
