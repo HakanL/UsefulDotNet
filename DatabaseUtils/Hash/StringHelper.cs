@@ -9,7 +9,7 @@ namespace Haukcode.DatabaseUtils
     {
         public static string Sha1String(string input)
         {
-            using (var sha1 = new SHA1Managed())
+            using (var sha1 = SHA1.Create())
             {
                 byte[] hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(input));
 
@@ -19,7 +19,7 @@ namespace Haukcode.DatabaseUtils
 
         public static string Sha1Bytes(byte[] input)
         {
-            using (var sha1 = new SHA1Managed())
+            using (var sha1 = SHA1.Create())
             {
                 byte[] hash = sha1.ComputeHash(input);
 

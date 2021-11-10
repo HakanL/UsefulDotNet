@@ -12,7 +12,7 @@ namespace Haukcode.UsefulDotNet
             char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
             var data = new byte[maxSize];
 
-            using (var crypto = new RNGCryptoServiceProvider())
+            using (var crypto = RandomNumberGenerator.Create())
             {
                 crypto.GetNonZeroBytes(data);
             }
