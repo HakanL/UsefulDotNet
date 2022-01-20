@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Haukcode.UsefulDotNet;
 using Microsoft.EntityFrameworkCore;
 
 namespace Haukcode.DatabaseUtils

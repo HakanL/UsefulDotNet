@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Haukcode.DatabaseUtils
+namespace Haukcode.UsefulDotNet
 {
     public static class DateTimeHelper
     {
@@ -46,6 +46,19 @@ namespace Haukcode.DatabaseUtils
             }
 
             yield return (start, end);
+        }
+
+        public static DateTime SpecifyKind(DateTime input, DateTimeKind kind)
+        {
+            return DateTime.SpecifyKind(input, kind);
+        }
+
+        public static DateTime? SpecifyKind(DateTime? input, DateTimeKind kind)
+        {
+            if (!input.HasValue)
+                return null;
+
+            return DateTime.SpecifyKind(input.Value, kind);
         }
     }
 }

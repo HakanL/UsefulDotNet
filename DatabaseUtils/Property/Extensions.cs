@@ -1,4 +1,5 @@
 ﻿using System;
+using Haukcode.UsefulDotNet;
 
 namespace Haukcode.DatabaseUtils.Extensions
 {
