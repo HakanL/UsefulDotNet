@@ -13,29 +13,6 @@ namespace Haukcode.UsefulDotNet
         internal const string OriginalFormatPropertyName = "{OriginalFormat}";
         internal const string ScopePropertyName = "Scope";
 
-        // May be null; if it is, Log.Logger will be lazily used
-        readonly ILogger _logger;
-        readonly Action dispose;
-
-        /// <summary>
-        /// Construct a <see cref="SerilogLoggerProvider"/>.
-        /// </summary>
-        /// <param name="logger">A Serilog logger to pipe events through; if null, the static <see cref="Log"/> class will be used.</param>
-        /// <param name="dispose">If true, the provided logger or static log class will be disposed/closed when the provider is disposed.</param>
-        public SerilogLoggerProvider(ILogger logger = null, bool dispose = false)
-        {
-            if (logger != null)
-                this._logger = logger.ForContext(new[] { this });
-
-            if (dispose)
-            {
-                if (logger != null)
-                    this.dispose = () => (logger as IDisposable)?.Dispose();
-                else
-                    this.dispose = Log.CloseAndFlush;
-            }
-        }
-
         /// <inheritdoc cref="IDisposable" />
         public IDisposable BeginScope<T>(T state)
         {
@@ -77,12 +54,6 @@ namespace Haukcode.UsefulDotNet
         {
             get => this.value.Value;
             set => this.value.Value = value;
-        }
-
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            this.dispose?.Invoke();
         }
     }
 }
