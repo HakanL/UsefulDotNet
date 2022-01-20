@@ -66,7 +66,6 @@ namespace Haukcode.UsefulDotNet
                         this.stopWatch.Elapsed.TotalMilliseconds,
                         this.contextName);
 
-                    this.scopeLogContext.Dispose();
                     this.ndcLogContext.Dispose();
                 }
             }
