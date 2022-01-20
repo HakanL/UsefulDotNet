@@ -3,21 +3,28 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>Haukcode.UsefulDotNet</RootNamespace>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Product>Haukcode UsefulDotNet</Product>
+    <PackageId>Haukcode.UsefulDotNet</PackageId>
+    <Authors>Hakan Lindestaf</Authors>
+    <Company>Haukcode</Company>
+    <Copyright>(C) Copyright 2022 Hakan Lindestaf</Copyright>
+    <RepositoryUrl>https://github.com/HakanL/UsefulDotNet</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <PackageReleaseNotes>
+      1.0.0 - Initial release
+    </PackageReleaseNotes>
+    <Description>
+      Utilities for .NET
+    </Description>
+    <PackageTags>Utilities</PackageTags>
+    <Version>1.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="LICENSE" />
-    <None Remove="README.md" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Serilog" Version="2.10.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\DatabaseUtils\DatabaseUtils.csproj" />
   </ItemGroup>
 
 </Project>
