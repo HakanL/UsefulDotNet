@@ -14,6 +14,7 @@ namespace Haukcode.UsefulDotNet
         private readonly ILogger logger;
         private readonly Stopwatch stopWatch;
         private readonly IDisposable ndcLogContext;
+        private readonly Activity activity;
         private readonly string contextName;
         private bool disposed;
 
@@ -27,11 +28,18 @@ namespace Haukcode.UsefulDotNet
             this.logger = logger;
             this.contextName = context;
 
-            this.ndcLogContext = Serilog.Context.LogContext.PushProperty("LogContext", context);
+            if (Activity.Current == null)
+            {
+                // Start a new activity
+                this.activity = new Activity(context);
+                this.activity.Start();
+            }
+
+            this.ndcLogContext = Serilog.Context.LogContext.PushProperty(Constants.LogContextPropertyName, context);
+
+            this.logger.Debug(Constants.StartContextMessageTemplate, context);
 
             this.stopWatch = Stopwatch.StartNew();
-
-            this.logger.Debug("Start of log context {StartLogContext}", context);
         }
 
         public static LogContext Create(ILogger logger, [CallerMemberName] string context = "")
@@ -62,11 +70,12 @@ namespace Haukcode.UsefulDotNet
                     this.stopWatch.Stop();
 
                     this.logger.Information(
-                        "Duration {DurationMs:N1} ms for log context {EndLogContext}",
+                        Constants.EndContextMessageTemplate,
                         this.stopWatch.Elapsed.TotalMilliseconds,
                         this.contextName);
 
                     this.ndcLogContext.Dispose();
+                    this.activity?.Dispose();
                 }
             }
         }

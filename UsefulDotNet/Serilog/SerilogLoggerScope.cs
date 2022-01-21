@@ -7,11 +7,11 @@ namespace Haukcode.UsefulDotNet
 {
     public class SerilogLoggerScope : IDisposable
     {
-        const string NoName = "None";
+        private const string NoName = "None";
 
-        readonly SerilogLoggerProvider provider;
-        readonly object state;
-        readonly IDisposable chainedDisposable;
+        private readonly SerilogLoggerProvider provider;
+        private readonly object state;
+        private readonly IDisposable chainedDisposable;
 
         // An optimization only, no problem if there are data races on this.
         bool disposed;

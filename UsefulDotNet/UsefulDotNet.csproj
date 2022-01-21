@@ -13,19 +13,20 @@
     <RepositoryUrl>https://github.com/HakanL/UsefulDotNet</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageReleaseNotes>
-      1.1.0 - Added ScopeLogContext
+      1.1.4 - Added ScopeLogContext
       1.0.2 - Initial release
     </PackageReleaseNotes>
     <Description>
       Utilities for .NET
     </Description>
     <PackageTags>Utilities</PackageTags>
-    <Version>1.1.0</Version>
+    <Version>1.1.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Serilog" Version="2.10.0" />
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="6.0.0" />
   </ItemGroup>
 
 </Project>
