@@ -13,6 +13,7 @@
     <RepositoryUrl>https://github.com/HakanL/UsefulDotNet</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageReleaseNotes>
+	  1.2.0 - Added SubjectWithValue
       1.1.4 - Added ScopeLogContext
       1.0.2 - Initial release
     </PackageReleaseNotes>
@@ -20,13 +21,14 @@
       Utilities for .NET
     </Description>
     <PackageTags>Utilities</PackageTags>
-    <Version>1.1.4</Version>
+    <Version>1.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="6.0.0" />
+    <PackageReference Include="System.Reactive.Linq" Version="5.0.0" />
   </ItemGroup>
 
 </Project>
