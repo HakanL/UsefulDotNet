@@ -12,16 +12,15 @@
     <Copyright>(C) Copyright 2022 Hakan Lindestaf</Copyright>
     <RepositoryUrl>https://github.com/HakanL/UsefulDotNet</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
-    <PackageReleaseNotes>
-	  1.2.0 - Added SubjectWithValue
-      1.1.4 - Added ScopeLogContext
-      1.0.2 - Initial release
-    </PackageReleaseNotes>
+    <PackageReleaseNotes>1.2.1 - Added option for Distinct to SubjectWithValue
+1.2.0 - Added SubjectWithValue
+1.1.4 - Added ScopeLogContext
+1.0.2 - Initial release    </PackageReleaseNotes>
     <Description>
       Utilities for .NET
     </Description>
     <PackageTags>Utilities</PackageTags>
-    <Version>1.2.0</Version>
+    <Version>1.2.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
