@@ -1,4 +1,6 @@
-namespace System.Reactive.Linq
+using System;
+
+namespace Haukcode.Reactive.Linq
 {
     //
     // Summary:

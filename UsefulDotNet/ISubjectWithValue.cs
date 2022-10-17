@@ -1,6 +1,6 @@
 using System.Reactive.Subjects;
 
-namespace System.Reactive.Subjects
+namespace Haukcode.Reactive.Subjects
 {
     public interface ISubjectWithValue<T> : ISubject<T>
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reactive.Subjects;
 using System.Text;
 
-namespace System.Reactive.Subjects
+namespace Haukcode.Reactive.Subjects
 {
     public class SubjectWithValue<T> : ISubject<T>, ISubjectWithValue<T>
     {

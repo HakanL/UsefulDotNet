@@ -1,6 +1,8 @@
+using System;
 using System.Reactive.Subjects;
+using Haukcode.Reactive.Subjects;
 
-namespace System.Reactive.Linq
+namespace Haukcode.Reactive.Linq
 {
     public class ObservableWithValue<T> : IObservableWithValue<T>
     {
