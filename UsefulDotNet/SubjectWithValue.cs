@@ -10,7 +10,7 @@ namespace Haukcode.Reactive.Subjects
         private readonly Subject<T> subject;
         private readonly bool distinct;
 
-        public SubjectWithValue(T initialValue, bool distinct = false)
+        public SubjectWithValue(T initialValue = default(T), bool distinct = false)
         {
             Value = initialValue;
             this.distinct = distinct;

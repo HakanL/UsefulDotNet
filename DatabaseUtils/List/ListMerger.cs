@@ -61,8 +61,7 @@ namespace Haukcode.DatabaseUtils
                 if (matchingNewEntry.Length > 0)
                 {
                     newDataList.Remove(matchingNewEntry[0]);
-                    if (update != null)
-                        update(current, matchingNewEntry[0]);
+                    update?.Invoke(current, matchingNewEntry[0]);
                 }
                 else
                 {
