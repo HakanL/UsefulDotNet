@@ -26,9 +26,9 @@ namespace Haukcode.Reactive.Linq
 
         public T Value => this.impl.Value;
 
-        public static IObservableWithValue<TResult> Never<TResult>()
+        public static IObservableWithValue<T> Never()
         {
-            return new ObservableWithValue<TResult>(new SubjectWithValue<TResult>());
+            return new ObservableWithValue<T>(new SubjectWithValue<T>());
         }
     }
 }
