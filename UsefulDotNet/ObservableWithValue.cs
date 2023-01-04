@@ -1,5 +1,6 @@
 using System;
 using System.Reactive.Subjects;
+using System.Runtime.CompilerServices;
 using Haukcode.Reactive.Subjects;
 
 namespace Haukcode.Reactive.Linq
@@ -24,5 +25,10 @@ namespace Haukcode.Reactive.Linq
         }
 
         public T Value => this.impl.Value;
+
+        public static IObservableWithValue<TResult> Never<TResult>()
+        {
+            return new ObservableWithValue<TResult>(new SubjectWithValue<TResult>());
+        }
     }
 }

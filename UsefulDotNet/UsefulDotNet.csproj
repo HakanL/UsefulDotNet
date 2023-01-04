@@ -12,7 +12,8 @@
     <Copyright>(C) Copyright 2023 Hakan Lindestaf</Copyright>
     <RepositoryUrl>https://github.com/HakanL/UsefulDotNet</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
-    <PackageReleaseNotes>1.2.3 - Set default on SubjectWithValue
+    <PackageReleaseNotes>1.2.4 - Added Never method
+1.2.3 - Set default on SubjectWithValue
 1.2.2 - Moved the Rx classes to our namespace
 1.2.1 - Added option for Distinct to SubjectWithValue
 1.2.0 - Added SubjectWithValue
@@ -22,7 +23,7 @@
       Utilities for .NET
     </Description>
     <PackageTags>Utilities</PackageTags>
-    <Version>1.2.3</Version>
+    <Version>1.2.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
