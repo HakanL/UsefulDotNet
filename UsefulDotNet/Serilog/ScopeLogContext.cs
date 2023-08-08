@@ -22,7 +22,7 @@ namespace Haukcode.UsefulDotNet
         private bool disposed;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LogContext"/> object using the specified <paramref name="logger"/> and <paramref name="context"/> name.
+        /// Initializes a new instance of the <see cref="ScopeLogContext"/> object using the specified <paramref name="logger"/> and <paramref name="context"/> name.
         /// </summary>
         /// <param name="logger">The logger owning the context.</param>
         /// <param name="context">The arbitrary name of the logging context.</param>

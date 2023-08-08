@@ -8,8 +8,8 @@ namespace Haukcode.UsefulDotNet
 {
     public static class SerilogHelper
     {
-        public const string FileTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} {LogContext} [{Level}] {Message}{NewLine}{Exception}";
-        public const string TraceTemplate = "{Timestamp:HH:mm:ss.fff} {LogContext} [{Level}] {Message}{NewLine}{Exception}";
+        public const string FileTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} {LogContext} [{Level:u3}] {Message}{NewLine}{Exception}";
+        public const string TraceTemplate = "{Timestamp:HH:mm:ss.fff} {LogContext} [{Level:u3}] {Message}{NewLine}{Exception}";
 
         public static void WriteWithProperties(ILogger logger, object properties, LogEventLevel level, string messageTemplate, params object[] propertyValues)
         {
