@@ -12,11 +12,11 @@
     <Copyright>(C) Copyright 2022 Hakan Lindestaf</Copyright>
     <RepositoryUrl>https://github.com/HakanL/UsefulDotNet</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
-    <PackageReleaseNotes>
-      1.2.1 - Upgraded to .NET 6 and EF Core 6
-      1.1.4 - Added stored file-based cache for enums
-      1.0.1 - Bug fix
-      1.0.0 - Initial release</PackageReleaseNotes>
+    <PackageReleaseNotes>1.3.0 - Moved methods from DatabaseUtils to UsefulDotNet
+1.2.1 - Upgraded to .NET 6 and EF Core 6
+1.1.4 - Added stored file-based cache for enums
+1.0.1 - Bug fix
+1.0.0 - Initial release</PackageReleaseNotes>
     <Description>Database utilities for Entity Framework
 - Proper enum handling (mapping to lookup tables with cache)
 - List merging
@@ -26,11 +26,11 @@
 - Various helpers
 </Description>
     <PackageTags>Entity, Framework, entity-framework-core, Core, Data, O/RM, EntityFrameworkCore, EntityFramework, EFCore, EF</PackageTags>
-    <Version>1.2.1</Version>
+    <Version>1.3.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Haukcode.UsefulDotNet" Version="1.2.2" />
+    <PackageReference Include="Haukcode.UsefulDotNet" Version="1.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
   </ItemGroup>
 
