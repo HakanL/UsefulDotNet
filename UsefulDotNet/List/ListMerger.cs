@@ -8,24 +8,27 @@ namespace Haukcode.UsefulDotNet
     public static class ListMerger
     {
         public static void MapManyToManyAssociation<T>(
-            ICollection<T> currentData,
-            ICollection<T> newData,
+            IEnumerable<T> currentData,
+            IEnumerable<T> newData,
             Func<T, T, bool> equality,
             Action<T> insert,
             Action<T> delete)
         {
-            foreach (var existing in currentData.ToList())
+            var currentList = currentData.ToList();
+            var newList = newData.ToList();
+
+            foreach (var existing in currentList)
             {
-                bool anyMatch = newData.Any(a => equality(existing, a));
+                bool anyMatch = newList.Any(a => equality(existing, a));
 
                 if (!anyMatch)
                     // Remove item
                     delete(existing);
             }
 
-            foreach (var newItem in newData)
+            foreach (var newItem in newList)
             {
-                bool anyMatch = currentData.Any(a => equality(newItem, a));
+                bool anyMatch = currentList.Any(a => equality(newItem, a));
 
                 if (!anyMatch)
                     insert(newItem);
@@ -43,8 +46,8 @@ namespace Haukcode.UsefulDotNet
         /// <param name="delete"></param>
         /// <param name="update"></param>
         public static void MapImmutableOneToMany<TCurrent, TNew>(
-            ICollection<TCurrent> currentData,
-            ICollection<TNew> newData,
+            IEnumerable<TCurrent> currentData,
+            IEnumerable<TNew> newData,
             Func<TCurrent, TNew, bool> equality,
             Action<TNew> insert,
             Action<TCurrent> delete,
@@ -52,9 +55,10 @@ namespace Haukcode.UsefulDotNet
             Action<TCurrent, TNew> update = null)
         {
             var currentItemsToRemove = new List<TCurrent>();
+            var currentList = currentData.ToList();
             var newDataList = newData?.ToList() ?? new List<TNew>();
 
-            foreach (var current in currentData.ToList())
+            foreach (var current in currentList)
             {
                 var matchingNewEntry = newDataList.Where(a => equality(current, a)).ToArray();
 
@@ -88,8 +92,8 @@ namespace Haukcode.UsefulDotNet
         /// <param name="delete"></param>
         /// <param name="update"></param>
         public static async Task<bool> MapImmutableOneToManyAsync<TCurrent, TNew>(
-            ICollection<TCurrent> currentData,
-            ICollection<TNew> newData,
+            IEnumerable<TCurrent> currentData,
+            IEnumerable<TNew> newData,
             Func<TCurrent, TNew, bool> equality,
             Func<TNew, Task> insert,
             Func<TCurrent, Task> delete,
@@ -98,9 +102,10 @@ namespace Haukcode.UsefulDotNet
             bool dirty = false;
 
             var currentItemsToRemove = new List<TCurrent>();
+            var currentList = currentData.ToList();
             var newDataList = newData?.ToList() ?? new List<TNew>();
 
-            foreach (var current in currentData.ToList())
+            foreach (var current in currentList)
             {
                 var matchingNewEntries = newDataList.Where(a => equality(current, a)).ToList();
 
@@ -150,31 +155,34 @@ namespace Haukcode.UsefulDotNet
         /// <param name="insert"></param>
         /// <param name="delete"></param>
         public static void SequentialOneToManyMap<T>(
-            ICollection<T> currentData,
-            ICollection<T> newData,
+            IEnumerable<T> currentData,
+            IEnumerable<T> newData,
             Action<T, T> assignment,
             Action<T> insert,
             Action<T> delete)
         {
-            var currentDataArray = currentData.ToArray();
-            var newDataArray = newData.ToArray();
+            var currentDataList = currentData.ToList();
+            var newDataList = newData.ToList();
 
-            for (int i = 0; i < currentData.Count; i++)
+            for (int i = 0; i < currentDataList.Count; i++)
             {
-                if (i < newData.Count)
+                if (i < newDataList.Count)
                     // Replace
-                    assignment(currentDataArray[i], newDataArray[i]);
+                    assignment(currentDataList[i], newDataList[i]);
             }
 
-            if (currentData.Count < newData.Count)
+            if (currentDataList.Count < newDataList.Count)
             {
                 // Insert new items
-                newDataArray.Skip(currentData.Count).ToList().ForEach(a => insert(a));
+                newDataList.Skip(currentDataList.Count).ToList().ForEach(a => insert(a));
             }
-            else if (currentData.Count > newData.Count)
+            else if (currentDataList.Count > newDataList.Count)
             {
                 // Delete items
-                currentData.Skip(newData.Count).ToList().ForEach(a => delete(a));
+                foreach (var item in currentDataList.Skip(newDataList.Count))
+                {
+                    delete(item);
+                }
             }
         }
     }
