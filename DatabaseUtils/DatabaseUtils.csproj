@@ -12,7 +12,10 @@
     <Copyright>(C) Copyright 2022 Hakan Lindestaf</Copyright>
     <RepositoryUrl>https://github.com/HakanL/UsefulDotNet</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
-    <PackageReleaseNotes>1.3.0 - Moved methods from DatabaseUtils to UsefulDotNet
+    <PackageReleaseNotes>1.3.1 - Fix enum int conversion to use IConvertible.ToInt32 - the
+        previous (int)(ValueType)value double-cast produced garbage on
+        .NET 10 Linux x64 JIT
+1.3.0 - Moved methods from DatabaseUtils to UsefulDotNet
 1.2.1 - Upgraded to .NET 6 and EF Core 6
 1.1.4 - Added stored file-based cache for enums
 1.0.1 - Bug fix
@@ -26,7 +29,7 @@
 - Various helpers
 </Description>
     <PackageTags>Entity, Framework, entity-framework-core, Core, Data, O/RM, EntityFrameworkCore, EntityFramework, EFCore, EF</PackageTags>
-    <Version>1.3.0</Version>
+    <Version>1.3.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

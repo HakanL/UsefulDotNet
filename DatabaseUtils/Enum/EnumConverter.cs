@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -207,7 +208,7 @@ namespace Haukcode.DatabaseUtils
             if (!this.enumCache.TryGetValue(typeof(T), out EnumCache enumMapping))
                 throw new InvalidOperationException($"Enum type {typeof(T).Name} not in cache, fix the code in DataManager.cs and register the enum in the PopulateEnumCache method");
 
-            return enumMapping.GetIdFromIntValue((int)(ValueType)value);
+            return enumMapping.GetIdFromIntValue(value.ToInt32(CultureInfo.InvariantCulture));
         }
 
         public int? GetIdFromEnum<T>(T? value) where T : struct, IConvertible
@@ -232,7 +233,7 @@ namespace Haukcode.DatabaseUtils
             if (!this.enumCache.TryGetValue(typeof(T), out EnumCache enumMapping))
                 throw new InvalidOperationException($"Enum type {typeof(T).Name} not in cache, fix the code in DataManager.cs and register the enum in the PopulateEnumCache method");
 
-            return (T)(ValueType)enumMapping.GetIntValueFromId(id);
+            return (T)Enum.ToObject(typeof(T), enumMapping.GetIntValueFromId(id));
         }
 
         /// <summary>
